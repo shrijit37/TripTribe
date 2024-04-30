@@ -1,0 +1,42 @@
+.review-page-container{
+    display:flex;
+    flex-direction: column;
+    background-image: url("../../Assets/review.png");
+    align-items: center;
+    justify-content: space-between;
+    margin-top:0;
+}
+
+.location-search{
+    height: 5vh;
+    width: 50vh;
+}
+
+.write-review{
+    margin-top:20vh;
+    margin-bottom: 4em;
+}
+
+.review-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items:start;
+    flex-wrap: wrap;
+
+}
+
+.review-btn{
+    width:300px;
+    height:50px;
+    border-radius: 40px;
+    border: none;
+}
+
+.review-btn:hover{
+    background-color: rgb(204, 204, 204);
+    transform: 0.3s;
+    cursor:pointer;
+}
+
+
