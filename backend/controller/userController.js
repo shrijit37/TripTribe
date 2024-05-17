@@ -2,7 +2,9 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import createToken from "../utils/createToken.js";
+import { LogTimings } from "concurrently";
 
+// Create a new user
 const createUser = asyncHandler(async (req, res) => {
   const { fname, lname, email, password, userInterest, userAddress } = req.body;
   if (!fname || !email || !password) {
@@ -28,9 +30,8 @@ const createUser = asyncHandler(async (req, res) => {
       userAddress,
     });
 
-    createToken(res, newUser._id);
-
     await newUser.save();
+    createToken(res, newUser._id);
 
     return res.status(201).send({ _id: newUser.id });
   } catch (e) {
@@ -38,25 +39,87 @@ const createUser = asyncHandler(async (req, res) => {
     return res.status(400).send("Invalid user data");
   }
 });
+
+// Login a user
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    const isPasswordValid = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
+    const isPasswordValid = await bcrypt.compare(password, existingUser.password);
     if (isPasswordValid) {
       createToken(res, existingUser._id);
-      res.send(existingUser.email);
+      return res.send(existingUser.email);
     }
-    return;
+  }
+  return res.status(401).send("Invalid email or password");
+});
+
+// Logout a user
+const logoutUser = asyncHandler(async (req, res) => {
+  res.cookie('jwt', "", { httpOnly: true, expires: new Date(0) });
+  return res.sendStatus(200);
+});
+
+// Get current user's profile
+const getCurrentUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    return res.json({
+      _id: user._id,
+      fname: user.fname,
+      lname: user.lname,
+      email: user.email,
+      userInterest: user.userInterest,
+      userAddress: user.userAddress,
+    });
+  } else {
+    return res.status(404).send("User not found");
   }
 });
 
-const logoutUser = asyncHandler(async (req, res) => {
-  res.cookie('jwt', "", { httpOnly: true, expires: new Date(0) });
-  res.sendStatus(200)
+// Update current user profile
+const updateCurrentUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.email = req.body.email || user.email;
+    user.fname = req.body.fname || user.fname;
+    user.lname = req.body.lname || user.lname;
+    user.userInterest = req.body.userInterest || user.userInterest;
+    user.userAddress = req.body.userAddress || user.userAddress;
+
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      user.password = hashedPassword;
+    }
+    
+    const updatedUser = await user.save();
+
+    return res.json({
+      _id: updatedUser._id,
+      fname: updatedUser.fname,
+      lname: updatedUser.lname,
+      email: updatedUser.email,
+      userInterest: updatedUser.userInterest,
+      userAddress: updatedUser.userAddress,
+    });
+  } else {
+    return res.status(404).send("User not found");
+  }
 });
-export { createUser, loginUser, logoutUser };
+
+export { createUser, loginUser, logoutUser, getCurrentUserProfile, updateCurrentUserProfile };
+
+
+// {
+//   "_id": "66451a4e3fe8996308ea71b9",
+//   "fname": "shrijit",
+//   "lname": "srivastav",
+//   "email": "shrijitsrivastav@gmail.com",
+//   "userInterest": [
+//       "driving"
+//   ],
+//   "userAddress": "ghaziabad"
+// }

@@ -3,6 +3,11 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar'
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+
+import MapComponent from "./MapComponent";
+
+
 
 import useEffect from "react"
 const Result = () => {
@@ -13,7 +18,7 @@ const Result = () => {
       <div className="result-main">
 
         <div className="map-container">
-          maaaaaapppppppppppp
+          <MapComponent/>
         </div>
         <div className="result-container">
           <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
