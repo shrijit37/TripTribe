@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
-
+import { GOOGLE_API_KEY } from '../../contants';
 const mapContainerStyle = {
   height: '100vh',
   width: '100%'
@@ -60,7 +60,7 @@ const MapComponent = () => {
           </button>
         ))}
       </div>
-      <LoadScript googleMapsApiKey="AIzaSyDMSb6W97_Ye8TOoxIGRiYmUnwlFR_j-zY">
+      <LoadScript googleMapsApiKey={GOOGLE_API_KEY}>
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={4}

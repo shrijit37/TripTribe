@@ -2,19 +2,18 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import createToken from "../utils/createToken.js";
-import { LogTimings } from "concurrently";
 
 // Create a new user
 const createUser = asyncHandler(async (req, res) => {
   const { fname, lname, email, password, userInterest, userAddress } = req.body;
   if (!fname || !email || !password) {
-    return res.status(400).send("Fill all the inputs");
+    return res.status(400).json({ message: "Fill all the inputs" });
   }
 
   const userExists = await User.findOne({ email });
   if (userExists) {
     console.log("User already exists");
-    return res.status(400).send("User already exists");
+    return res.status(400).json({ message: "User already exists" });
   }
 
   try {
@@ -33,10 +32,10 @@ const createUser = asyncHandler(async (req, res) => {
     await newUser.save();
     createToken(res, newUser._id);
 
-    return res.status(201).send({ _id: newUser.id });
+    return res.status(201).json({ _id: newUser.id });
   } catch (e) {
     console.error(e);
-    return res.status(400).send("Invalid user data");
+    return res.status(400).json({ message: "Invalid user data" });
   }
 });
 
@@ -49,10 +48,10 @@ const loginUser = asyncHandler(async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, existingUser.password);
     if (isPasswordValid) {
       createToken(res, existingUser._id);
-      return res.send(existingUser.email);
+      return res.json({ email: existingUser.email,fname: existingUser.fname,lname: existingUser.lname,userAddress: existingUser.userAddress,userInterest: existingUser.userInterest});
     }
   }
-  return res.status(401).send("Invalid email or password");
+  return res.status(401).json({ message: "Invalid email or password" });
 });
 
 // Logout a user
@@ -74,7 +73,7 @@ const getCurrentUserProfile = asyncHandler(async (req, res) => {
       userAddress: user.userAddress,
     });
   } else {
-    return res.status(404).send("User not found");
+    return res.status(404).json({ message: "User not found" });
   }
 });
 
@@ -106,20 +105,8 @@ const updateCurrentUserProfile = asyncHandler(async (req, res) => {
       userAddress: updatedUser.userAddress,
     });
   } else {
-    return res.status(404).send("User not found");
+    return res.status(404).json({ message: "User not found" });
   }
 });
 
 export { createUser, loginUser, logoutUser, getCurrentUserProfile, updateCurrentUserProfile };
-
-
-// {
-//   "_id": "66451a4e3fe8996308ea71b9",
-//   "fname": "shrijit",
-//   "lname": "srivastav",
-//   "email": "shrijitsrivastav@gmail.com",
-//   "userInterest": [
-//       "driving"
-//   ],
-//   "userAddress": "ghaziabad"
-// }

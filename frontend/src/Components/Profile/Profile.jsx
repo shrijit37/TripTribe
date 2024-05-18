@@ -1,8 +1,15 @@
 import "./profile.css"
+import { logout } from "../../Redux/authSlice";
+import { useDispatch } from "react-redux";
+import {useNavigate } from "react-router-dom";
 const Profile = () => {
-
+    const dispatch = useDispatch();
     const edit = true;
-
+    const navigate = useNavigate();
+    const handleLogout = async()=>{
+        dispatch(logout());
+        navigate("/");
+    }
     return (
         <div className="profile-page">
             <div>
@@ -36,6 +43,10 @@ const Profile = () => {
                     <div className="separate">
                         <button className="profile-btn">
                             Save Changes
+                        </button>
+                       
+                        <button className="logout-btn" onClick={handleLogout}>
+                            Logout
                         </button>
                     </div>
                     

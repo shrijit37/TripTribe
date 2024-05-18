@@ -67,8 +67,25 @@
     border-radius: 30px;
     border: 0;
 }
+.logout-btn{
+    width: 100%;
+    margin-top:30px;
+    height: 8vh;
+    color:wheat;
+    background-color: rgb(255, 14, 14);
+    align-items: center;
+    border-radius: 30px;
+    border: 0;
+}
 
 .profile-btn:hover{
+    background-color: blanchedalmond;
+    color: black;
+    cursor: pointer;
+    transform: 0.9s linear;
+}
+
+.logout-btn:hover{
     background-color: blanchedalmond;
     color: black;
     cursor: pointer;

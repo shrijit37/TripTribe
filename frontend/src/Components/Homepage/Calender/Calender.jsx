@@ -1,12 +1,14 @@
-import "./calender.css"
+import "./calender.css";
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
+import { addDays, format } from 'date-fns'; // Import format function
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setDates } from '../../../Redux/searchSlice';
 
-
-const Calender = ({onClose}) => {
+const Calender = ({ onClose }) => {
+    const dispatch = useDispatch();
     const [state, setState] = useState([
         {
             startDate: new Date(),
@@ -14,8 +16,18 @@ const Calender = ({onClose}) => {
             key: 'selection'
         }
     ]);
+
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
+
+    const confirmDate = () => {
+        const { startDate, endDate } = state[0];
+        const formattedStartDate = format(startDate, 'dd-MM-yyyy');
+        const formattedEndDate = format(endDate, 'dd-MM-yyyy');
+        dispatch(setDates({ startDate: formattedStartDate, endDate: formattedEndDate }));
+        onClose();
+    };
+
     return (
         <div className="calender-container">
             <button className="calendar-close" onClick={onClose}>❌</button>
@@ -27,10 +39,10 @@ const Calender = ({onClose}) => {
                 ranges={state}
                 direction="horizontal"
                 minDate={yesterday}
-            />;
-            <button className="submit-btn" onClick={onClose}>confirm date</button>
+            />
+            <button className="submit-btn" onClick={confirmDate}>Confirm Date</button>
         </div>
-    )
-}
+    );
+};
 
-export default Calender
+export default Calender;
