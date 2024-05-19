@@ -5,10 +5,11 @@
     height: 100%;
     width: 100%;
     flex-direction: column;
-    /* background-color: rgba(153, 147, 230, 0.444); */
-    background-color: rgba(231, 175, 112, 0.444);
-
-    backdrop-filter: blur(10px);
+    /* background-color: rgba(153, 147, 230, 0.444); */ 
+    background-color: rgba(34, 34, 34, 0.499);
+    border: 2px solid grey;
+    border-radius: 10px;
+    /* backdrop-filter: blur(12px); */
     padding: 15px 0;
 }
 
@@ -16,6 +17,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    
+}
+
+.wr-form-label{
+    color: wheat;
     
 }
 .wr-btn{
@@ -31,4 +37,16 @@
 .wr-container label{
     font-size: 1.4rem;
     margin-bottom: 1em;
+}
+
+.input-cost::-webkit-inner-spin-button,
+.input-cost::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input-cost {
+  appearance: textfield;
+  height: 30px;
+  width: 200px;
+  -moz-appearance: textfield; /* Firefox */
 }

@@ -4,6 +4,7 @@
     background-image: url("../../Assets/review.png");
     align-items: center;
     justify-content: space-between;
+    height: inherit;
     margin-top:0;
 }
 
@@ -38,5 +39,6 @@
     transform: 0.3s;
     cursor:pointer;
 }
-
-
+.city-name{
+    margin-left:50;
+}

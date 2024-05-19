@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <>
       <div className="row2">
-        <h1 className="logo" cairo-play-logo>Trip Tribe</h1>
+        <h1 className="logo" cairo-play-logo><a href="/">Trip Tribe</a></h1>
         <div className="header-btn-container">
           <button className="header-btn"><a href="/">Home</a></button>
           <button className="header-btn" href="/review"><a href="/review">Reviews</a></button>

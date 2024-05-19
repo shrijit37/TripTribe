@@ -69,7 +69,6 @@ const Register = ({ closeLogin }) => {
       {loadSignIn ? (
         <div className="register-container">
           <form onSubmit={handleLogin} className="register-form">
-            <button type="button" onClick={closeLogin} className="register-close-btn">X</button>
             <h1 className="register-logo">Sign-in</h1>
 
             <label htmlFor="email" className="register-label">E-mail</label>
@@ -87,7 +86,6 @@ const Register = ({ closeLogin }) => {
       ) : (
         <div className="register-container">
           <form onSubmit={handleRegister} className="register-form">
-            <button type="button" onClick={closeLogin} className="register-close-btn">X</button>
             <h1 className="register-logo">Register</h1>
 
             <label htmlFor="firstName" className="register-label" >First Name</label>

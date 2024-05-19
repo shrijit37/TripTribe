@@ -1,14 +1,10 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
-import { GOOGLE_API_KEY } from '../../contants';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
+import { GoogleMap, Marker, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
+import { useSelector } from 'react-redux';
+
 const mapContainerStyle = {
   height: '100vh',
   width: '100%'
-};
-
-const center = {
-  lat: 39.8283,
-  lng: -98.5795
 };
 
 const cities = {
@@ -20,6 +16,12 @@ const cities = {
 };
 
 const MapComponent = () => {
+  const hotel = useSelector(state => state.search.hotel);
+  const center = {
+    lat: hotel ? hotel.lat : 39.8283,
+    lng: hotel ? hotel.lng : -98.5795
+  };
+
   const mapRef = useRef();
   const [selectedCity, setSelectedCity] = useState(null);
   const [directions, setDirections] = useState(null);
@@ -51,27 +53,36 @@ const MapComponent = () => {
     mapRef.current.setZoom(10);
   };
 
+  useEffect(() => {
+    if (!window.google) {
+      console.error("Google Maps JavaScript API library must be loaded.");
+    }
+  }, []);
+
   return (
     <div>
-      <div>
+      {/* <div>
         {Object.keys(cities).map(city => (
           <button key={city} onClick={() => handleCityClick(city)}>
             {city}
           </button>
         ))}
-      </div>
-      <LoadScript googleMapsApiKey={GOOGLE_API_KEY}>
-        <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          zoom={4}
-          center={center}
-          onLoad={onMapLoad}
-        >
-          {directions && (
-            <DirectionsRenderer directions={directions} />
-          )}
-        </GoogleMap>
-      </LoadScript> 
+      </div> */}
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        zoom={hotel ? 12 : 4}
+        center={center}
+        onLoad={onMapLoad}
+      >
+        {hotel && (
+          <Marker
+            position={center} 
+          />
+        )}
+        {directions && (
+          <DirectionsRenderer directions={directions} />
+        )}
+      </GoogleMap>
     </div>
   );
 };

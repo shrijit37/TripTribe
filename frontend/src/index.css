@@ -14,7 +14,9 @@ code {
 .row2{
   background-color: white;
 }
-
+button{
+  cursor: pointer;
+}
 button:hover{
   cursor:pointer;
 }

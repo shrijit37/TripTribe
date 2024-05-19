@@ -2,7 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     city: null,
-    hotel: null,
+    hotel: {
+        name: null,
+        lat: null,
+        lng: null,
+    },
     startDate: null,
     endDate: null
 };
@@ -15,7 +19,11 @@ const searchSlice = createSlice({
             state.city = action.payload;
         },
         setHotel: (state, action) => {
-            state.hotel = action.payload;
+            state.hotel = {
+                name: action.payload.name,
+                lat: action.payload.lat,
+                lng: action.payload.lng,
+            };
         },
         setDates: (state, action) => {
             const { startDate, endDate } = action.payload;
@@ -27,4 +35,3 @@ const searchSlice = createSlice({
 
 export const { setCity, setHotel, setDates } = searchSlice.actions;
 export default searchSlice.reducer;
-

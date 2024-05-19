@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
@@ -24,40 +23,41 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function ReviewCard() {
+export default function ReviewCard(review) {
   const [expanded, setExpanded] = useState(false);
+
+
+
+const date = new Date(review.data.createdAt);
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`;
+
+const overallRating = (review.data.ratings.food+review.data.ratings.cost+review.data.ratings.safety+review.data.ratings.touristSpots)/4;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
   return (
-    <Card sx={{ maxWidth: 345 ,margin:'50px'}}>
+    <Card sx={{ maxWidth: 345 ,margin:'50px',width:"400px"}}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            {review.data.writer.fname[0]}
           </Avatar>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={review.data.writer.fname + ' ' + review.data.writer.lname}
+        subheader={formattedDate}
       />
-      <CardMedia
-        component="img"
-        height="194"
-        image="../../Assets/pngegg.png"
-        alt="no-img"
-      />
+      
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
+        <h4 className='city-name'>City : {review.data.location} </h4>
+          {review.data.review}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-      <Typography component="legend">User Rating:</Typography>
-      <Rating name="read-only" value={4} readOnly />
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -69,11 +69,38 @@ export default function ReviewCard() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-            aside for 10 minutes.
-          </Typography>
+            <Typography component="legend">User Rating:</Typography>
+      <Rating name="read-only" value={overallRating} readOnly />
+      <Typography component="legend">Food</Typography>
+            <Rating
+              name="food-rating"
+              value={review.data.ratings.food}
+              precision={0.1}
+              readOnly
+            />
+            <Typography component="legend">Cost</Typography>
+            <Rating
+              name="cost-rating"
+              value={review.data.ratings.cost}
+              precision={0.1}
+              readOnly
+            />
+
+            <Typography component="legend">Safety</Typography>
+            <Rating
+              name="safety-rating"
+              value={review.data.ratings.safety}
+              precision={0.1}
+              readOnly
+              />
+
+              <Typography component="legend">Tourist Spots</Typography>
+              <Rating
+                name="tourist-spots-rating"
+                value={review.data.ratings.touristSpots}
+                precision={0.1}
+                readOnly
+              />
         </CardContent>
       </Collapse>
     </Card>
