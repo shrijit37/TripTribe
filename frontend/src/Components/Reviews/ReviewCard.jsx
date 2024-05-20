@@ -69,7 +69,7 @@ const overallRating = (review.data.ratings.food+review.data.ratings.cost+review.
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-            <Typography component="legend">User Rating:</Typography>
+            <Typography component="legend">Overall Rating:</Typography>
       <Rating name="read-only" value={overallRating} readOnly />
       <Typography component="legend">Food</Typography>
             <Rating

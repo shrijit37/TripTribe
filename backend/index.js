@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import connectDb from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js"; 
+import itenaryRoutes from "./routes/itenaryRoutes.js"
 import cors from "cors";
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
 app.use("/api/reviews", reviewRoutes); 
+app.use("/api/itenary",itenaryRoutes)
 app.listen(port, () => console.log(`server listening on ${port}`));
 
 

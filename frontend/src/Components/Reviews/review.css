@@ -1,12 +1,14 @@
-.review-page-container{
-    display:flex;
+.review-page-container {
+    display: flex;
     flex-direction: column;
     background-image: url("../../Assets/review.png");
     align-items: center;
     justify-content: space-between;
-    height: inherit;
-    margin-top:0;
-}
+    height: 100vh;
+    margin-top: 0;
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
 
 .location-search{
     height: 5vh;

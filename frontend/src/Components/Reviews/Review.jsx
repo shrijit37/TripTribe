@@ -27,7 +27,6 @@ const Review = () => {
         };
         fetchCities();
     }, []);
-
     const handleLocationChange = async (event, value) => {
         setSelectedLocation(value);
         if (value) {
